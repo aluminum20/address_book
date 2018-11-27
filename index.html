@@ -1,0 +1,346 @@
+
+<html>
+	</head>
+		<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+		<style>
+			.lineBox{
+				text-align: left;
+				margin-top: 150px;
+			}
+			.userBox{
+				min-width: 140px;
+				margin-top: 75px;
+				margin-left:50px;
+				/*margin-left:5.4%;*/
+				text-align: center;
+				display: inline-block;
+				color:#999;
+				font-size: 37px;
+			}
+			.headImg{
+				width:125px;
+				/*width:13.5%;*/
+			}
+			.hideName{
+				max-width: 140px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			.header{
+				box-shadow: 0px 0px 20px #888888;
+				width:100%;
+				background-color: #fff;
+				/*background-color: #313131;*/
+				height:135px;
+				position:fixed;
+				top:0;
+				z-index:2;
+			}
+			.leftIcon{
+				width:80px;
+				position:fixed;
+				top:30px;
+				left:30px;				
+			}
+			.rightIcon{
+				width:100px;
+				position:fixed;
+				top:17px;
+				right:30px;
+			}
+			.out{
+				width:100%;
+				padding-left: 6.5%;
+				padding-right: 6.5%;
+				color:#333;
+			}
+			.name{				
+				font-size:60px;				
+			}
+			.sex{
+				padding-left: 15px;
+				width:60px;
+				padding-right: 80px;
+			}
+			.head{
+				right:0px;
+				width:200px;
+				position:absolute;
+			}
+			.firstLine{
+				margin-top: 90px;
+				margin-bottom: 23px;
+			}
+			.line{
+				margin-top: 45px;
+				font-size:45px !important;
+			}
+			.item{				
+				text-align: left;
+				margin-top: 150px;
+				color:#999;
+			}
+			.divider{
+				margin-top: 90px;
+			}
+		</style>
+	<head>
+	<body>
+		<div id="app">
+		<div class="header">
+			<!-- <img src="icon/more.png" v-if="isInfo" class="rightIcon" v-on:click="changeIsInfo">
+			<img src="icon/back.png" v-if="!isInfo"class="leftIcon" v-on:click="changeIsInfo">	 -->
+			<!-- <img src="icon/more.png" v-if="isInfo" class="rightIcon" v-on:click="changeIsInfo"> -->
+			<img src="icon/back.png" v-if="isInfo"class="leftIcon" v-on:click="changeIsInfo">
+		</div>
+		<div style="margin-top:225px;">
+			<div class="out" v-for="info in infos" v-bind:id="info.index">
+<!-- 				<a v-bind:name="info.index"> -->
+				<div class="firstLine">
+					<span class="name">{{ info.wechat }}</span>
+					<img class="sex" v-bind:src="getSexPic(info.sex)">
+					<img class="head" v-bind:src="getHead(info.index)">
+				</div>
+				<div class="line">
+					<span class="item">大名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+					<span>{{ info.name }}</span>
+				</div>
+				<div class="line">
+					<span class="item">大家都喊TA&nbsp;&nbsp;&nbsp;&nbsp;</span>
+					<span>{{ info.nick }}</span>
+				</div>
+				<div class="line">
+					<span class="item">年级专业&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+					<span>{{ info.major }}</span>
+				</div>
+				<div class="line">
+					<span class="item">TA在协会&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+					<span>{{ info.withUs }}</span>
+				</div>
+				<img class="divider" v-bind:src="randdivider()" style="width:100%">
+<!-- 				</a> -->
+			</div>
+		</div>
+		<div style="margin-top:150px;" id="overview">
+			<div style="height:135px;color:#fff">占位</div>
+			<div v-for="info in infos" v-bind:id="info.index" class="userBox"><!-- 每个头像和用户名的框 -->
+<!-- 				<a v-bind:href="getAnchor(info.index)" v-on:click="changeIsInfo" > -->
+				<img v-bind:src="getHead(info.index)" class="headImg" v-on:click="goto(info.index)">
+				<div class="hideName">{{ info.wechat }}</div>
+<!-- 				</a> -->
+			</div>
+		</div>
+		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	</div>
+	</body>
+	<script>
+	var app = new Vue({
+	  el: '#app',
+	  data: {
+	  	isInfo:true,
+		infos: [
+	      { name: '刘雪莹' ,wechat:'请不要喝奶茶好嘛',nick:"锅王",major:'16/电信/信息工程',withUs:"第7代会长",index:"1",sex:"girl"},
+	      { name: '黄妙祯' ,wechat:'喵秘Katza',nick:"喵姐",major:'09/轻食/轻化工程',withUs:" ",index:"2",sex:"girl"},
+	      { name: '阮云阳' ,wechat:'★一舊囩☆',nick:"云阳",major:'10/自动化',withUs:"微协创始人",index:"3",sex:"boy"},
+	      { name: '房俊杰' ,wechat:'FANGJUNJIE',nick:"房子",major:'11/轻食/资源科学与工程',withUs:"第2代会长",index:"4",sex:"boy"},
+	      { name: '丁川' ,wechat:'小川',nick:"小川",major:'10/化学/化学工程与工艺',withUs:"第2代副会长",index:"5",sex:"girl"},
+	      { name: '赵洋' ,wechat:'洋仔',nick:" ",major:'10/机汽/车辆工程',withUs:"第1代副会长",index:"6",sex:"boy"},
+	      { name: '徐嘉隆' ,wechat:'嘉隆',nick:" ",major:'11/电力/热能与动力工程',withUs:"",index:"7",sex:"boy"},
+	      { name: '王晨旸' ,wechat:'Scaric',nick:"咩咩",major:'09/计算机/信安',withUs:"协会桌游担当",index:"8",sex:"boy"},
+	      { name: '何万里' ,wechat:'风',nick:"风师兄",major:'11/机汽/机电',withUs:"",index:"9",sex:"boy"},
+	      { name: '张景斌' ,wechat:'青藤先生',nick:" ",major:'10/设计/产品设计',withUs:" ",index:"10",sex:"boy"},
+	      { name: '谢栩骏' ,wechat:'Chaosssssss',nick:"谢大叔",major:'10/理学院/应用数学',withUs:" ",index:"11",sex:"boy"},
+	      { name: '吴哲' ,wechat:'Z',nick:"小哲哲",major:'10/新传/广告学',withUs:"",index:"12",sex:"boy"},
+	      { name: '李梦园' ,wechat:'夏影 Lee',nick:" ",major:'12/法学',withUs:" ",index:"13",sex:"girl"},
+	      { name: '蔡莺莺' ,wechat:'Ung',nick:" ",major:'12/化工',withUs:" ",index:"14",sex:"girl"},
+	      { name: '陈紫莹' ,wechat:'Ziying Chen',nick:" ",major:'12/外国语',withUs:"第3代副会长",index:"15",sex:"girl"},
+	      { name: '唐永毅' ,wechat:'唐小毅',nick:"会草（一代）",major:'11/电信',withUs:"苏佳的cp 第2代副会长",index:"16",sex:"boy"},
+	      { name: '薛雅心' ,wechat:'Katherine',nick:" ",major:'13/公管/行政管理',withUs:" ",index:"17",sex:"girl"},
+	      { name: '刘璇' ,wechat:'刘璇Melody',nick:" ",major:'12/新传/广告学',withUs:"",index:"18",sex:"girl"},
+	      { name: '谢选贺' ,wechat:'_Xavier@BlockArk',nick:"谢爸",major:'12/电信/信息工程',withUs:"第3代副会长",index:"19",sex:"boy"},
+	      { name: '陈思羽' ,wechat:'思羽siyu',nick:" ",major:'12/外国语',withUs:" ",index:"20",sex:"girl"},
+		  { name: '郑晓洁' ,wechat:'晓洁',nick:" ",major:'11/外国语',withUs:" ",index:"21",sex:"girl"},
+		  { name: '李海恩' ,wechat:'。包子恩',nick:'',major:'12/机汽/机械工程',withUs:'',index:'22',sex:'boy'},
+{ name: '陈筱丹' ,wechat:'小丹啊',nick:'竹子',major:'11/法学',withUs:'第3代副会长',index:'23',sex:'girl'},
+{ name: '胡逸伟' ,wechat:'Way',nick:'伟哥',major:'13/电信',withUs:'',index:'24',sex:'boy'},
+{ name: '黄皓哲' ,wechat:'T-Wac',nick:'妈妈',major:'13/材料/电子科学与技术',withUs:'第4代副会长',index:'25',sex:'boy'},
+{ name: '刘  玮' ,wechat:'刘玮玮刘',nick:'',major:'13/电力',withUs:'',index:'26',sex:'girl'},
+{ name: '陈晓强' ,wechat:'陈晓强',nick:'小叨',major:'9/理/信息与计算科学',withUs:'',index:'27',sex:'boy'},
+{ name: '梁嘉裕' ,wechat:'gahyu',nick:'kk',major:'14/土交/船海',withUs:'',index:'28',sex:'boy'},
+{ name: '陈浩莹' ,wechat:'咔嚓咔嚓',nick:'',major:'14/轻食/食科',withUs:'',index:'29',sex:'girl'},
+{ name: '吴睿晴' ,wechat:'NYC',nick:'',major:'14/轻食/食科',withUs:'',index:'30',sex:'girl'},
+{ name: '杨秋婵' ,wechat:'卡住呀的Katrina',nick:'杨子',major:'14/数学/信管',withUs:'',index:'31',sex:'girl'},
+{ name: '李盛鹏' ,wechat:'书山',nick:'李大爷',major:'13/计算机',withUs:'',index:'32',sex:'boy'},
+{ name: '王锴宏' ,wechat:'王锴宏',nick:'错红',major:'14/软件/软件工程',withUs:'',index:'33',sex:'boy'},
+{ name: '彭思影' ,wechat:'sying',nick:'思影',major:'14/经贸/电商',withUs:'',index:'34',sex:'girl'},
+{ name: '刘  欣' ,wechat:'x欣',nick:'叉欣',major:'14/电力/能动',withUs:'',index:'35',sex:'girl'},
+{ name: '' ,wechat:'特居',nick:'小成',major:'14/艺术/陶瓷',withUs:'',index:'36',sex:'girl'},
+{ name: '' ,wechat:'起昵称无能',nick:'',major:'',withUs:'',index:'37',sex:'girl'},
+{ name: '魏立钧' ,wechat:'魏立钧',nick:'小帅哥',major:'12/自动化',withUs:'',index:'38',sex:'boy'},
+{ name: '向凝' ,wechat:'向凝',nick:'',major:'11/土交/工程管理',withUs:'',index:'39',sex:'girl'},
+{ name: '梁仕南' ,wechat:'梁仕南',nick:'',major:'14/电信/信工',withUs:'',index:'40',sex:'boy'},
+{ name: '姚程文' ,wechat:'姚程文',nick:'',major:'14/电力/电气',withUs:'',index:'41',sex:'boy'},
+{ name: '马玉娟' ,wechat:'马小鱼',nick:'小鱼',major:'13/自动化',withUs:'',index:'42',sex:'girl'},
+{ name: '李可翀' ,wechat:'Leona',nick:'',major:'14/新传/传播',withUs:'',index:'43',sex:'girl'},
+{ name: '徐瑞' ,wechat:'老夏',nick:'',major:'13/新传/传播',withUs:'',index:'44',sex:'girl'},
+{ name: '殷侃悦' ,wechat:'藿香正气蛋 |･ω',nick:'鱼蛋 ',major:'14/自动化',withUs:'14级微博经理',index:'45',sex:'girl'},
+{ name: '陈思亦' ,wechat:'好好学习就会瘦啦',nick:'',major:'14/土交/交运',withUs:'14级微博经理',index:'46',sex:'girl'},
+{ name: '庞铭' ,wechat:'铭',nick:'小花朵',major:'13/电信/信工',withUs:'',index:'47',sex:'boy'},
+{ name: '邓子聪' ,wechat:'Zer0',nick:'',major:'14/电信/信工',withUs:'第5代技术总监',index:'48',sex:'boy'},
+{ name: '黄友健' ,wechat:'逸轩',nick:'邮件 ',major:'9/理/信息管理与信息系统',withUs:'约过协会最多人',index:'49',sex:'boy'},
+{ name: '王珊' ,wechat:'[太阳]',nick:'',major:'14/工管',withUs:'前微博组成员',index:'50',sex:'girl'},
+{ name: '张敏讷' ,wechat:'Dominominn',nick:'讷讷',major:'15/经贸/会展',withUs:'15级微信经理',index:'51',sex:'girl'},
+{ name: '林艾琳' ,wechat:'柴',nick:'20',major:'15/软件/软工',withUs:'第6代会长',index:'52',sex:'girl'},
+{ name: '陈欣宜' ,wechat:'_陈欣宜_',nick:'',major:'14/艺术',withUs:'',index:'53',sex:'girl'},
+{ name: '王翔遥' ,wechat:'遥.不可及',nick:'',major:'15/机汽/车辆',withUs:'',index:'54',sex:'boy'},
+{ name: '张阳阳' ,wechat:'阳阳阳',nick:'美阳阳',major:'14/经贸/会展',withUs:'',index:'55',sex:'girl'},
+{ name: '陈家豪' ,wechat:'xxtopchoi',nick:'',major:'15/机汽/车辆',withUs:'',index:'56',sex:'boy'},
+{ name: '梅相霖' ,wechat:'Coco.XL',nick:'',major:'15/材料/光电',withUs:'',index:'57',sex:'boy'},
+{ name: '李子康' ,wechat:'Plum',nick:'栗子康 康子',major:'15/轻食/食科',withUs:'15级微信经理',index:'58',sex:'boy'},
+{ name: '苏佳莹' ,wechat:'Lachesis',nick:'苏苏 ',major:'15/经贸/经济学',withUs:'第6代副会长',index:'59',sex:'girl'},
+{ name: '丁可' ,wechat:'Bean',nick:'',major:'15/软件/软件工程',withUs:'',index:'60',sex:'girl'},
+{ name: '梁海航' ,wechat:'δΕα δа',nick:'',major:'15/轻工/轻化工程',withUs:'',index:'61',sex:'boy'},
+{ name: '顾欣然 ' ,wechat:'Till Collapse',nick:'',major:'15/材料/电子材料',withUs:'第6代副会长',index:'62',sex:'girl'},
+{ name: '严文珧' ,wechat:'大瑶',nick:'瑶瑶 ',major:'14/经贸/电子商务',withUs:'14级微博经理',index:'63',sex:'girl'},
+{ name: '彭晨' ,wechat:'锦鲤',nick:'pc',major:'13/数学/信管',withUs:'',index:'64',sex:'girl'},
+{ name: '麦源思' ,wechat:'麦麦小麦',nick:'小麦',major:'15/新传/新闻与传播',withUs:'第6代副会长 设计杠把子',index:'65',sex:'girl'},
+{ name: '唐国威' ,wechat:'唐国威',nick:'',major:'14/轻工/轻化工程',withUs:'技术组成员',index:'66',sex:'boy'},
+{ name: '江欣怡' ,wechat:'欣欣向荣',nick:'',major:'15/工管',withUs:'微信组成员',index:'67',sex:'girl'},
+{ name: '邓璟睿' ,wechat:'璟',nick:'小紧',major:'15/机汽/机械电子工程',withUs:'第6代副会长 外联杠把子',index:'68',sex:'boy'},
+{ name: '陈金阳' ,wechat:'羊巴',nick:'',major:'15/计算机/计算机科学与技术',withUs:'技术组成员',index:'69',sex:'boy'},
+{ name: '吴志杰' ,wechat:'桔仔',nick:'',major:'15/电信/信息工程',withUs:'技术组成员',index:'70',sex:'boy'},
+{ name: '梁秋敏' ,wechat:'秋哥',nick:'秋哥',major:'14/材料/高分子',withUs:'第5代副会长 外联杠把子',index:'71',sex:'girl'},
+{ name: '张绍进' ,wechat:'Siuzeon',nick:'骚进、吉姆',major:'16/软件/软件工程',withUs:'第7代副会长 微信杠把子',index:'72',sex:'boy'},
+{ name: '姚瑶' ,wechat:'瑶啊瑶',nick:'',major:'16/土木/工程管理',withUs:'外联组成员',index:'73',sex:'girl'},
+{ name: '战瑾元' ,wechat:'原野之风',nick:'',major:'16/新传/新闻与传播',withUs:'微信外联成员',index:'74',sex:'girl'},
+{ name: '黄译' ,wechat:'阿怪',nick:'阿怪',major:'16/物理/光电信息',withUs:'微博组成员',index:'75',sex:'girl'},
+{ name: '王紫慧' ,wechat:'嗷呜',nick:'墨叽',major:'16/工管',withUs:'微博组成员',index:'76',sex:'girl'},
+{ name: '蔡宇楠' ,wechat:'蔡宇楠',nick:'',major:'15/建筑/城乡规划',withUs:'外联组成员',index:'77',sex:'boy'},
+{ name: '黎蕙心' ,wechat:'少冰七分糖',nick:'蕉蕉',major:'16/食品/食品营养与健康',withUs:'微博组成员',index:'78',sex:'girl'},
+{ name: '周思羽' ,wechat:'200%',nick:'',major:'16/经贸/旅游管理',withUs:'微博组成员',index:'79',sex:'girl'},
+{ name: '黄怡雯' ,wechat:'',nick:'黄总',major:'16/外国语/商务英语',withUs:'外联经理',index:'80',sex:'girl'},
+{ name: '刘天娇' ,wechat:'M-Gene',nick:'',major:'16/新传/广告学',withUs:'',index:'81',sex:'girl'},
+{ name: '邓宸铭' ,wechat:'Tom',nick:'',major:'16/体育/运动训练',withUs:'外联组成员',index:'82',sex:'boy'},
+{ name: '汤兆胜' ,wechat:'飘絮随风',nick:'',major:'16/化学/能源与动力工程',withUs:'微信组成员',index:'83',sex:'boy'},
+{ name: '冼淑贤' ,wechat:'冼sx',nick:'',major:'12/新传/编辑出版',withUs:'第4代会长',index:'84',sex:'girl'},
+{ name: '江莉佳' ,wechat:'北城天街',nick:'江老师',major:'15/化学/能源化学工程',withUs:'微博经理',index:'85',sex:'girl'},
+{ name: '宋婉宁' ,wechat:'Neptunian',nick:'',major:'15/建筑/城乡规划',withUs:'',index:'86',sex:'girl'},
+{ name: '戴伟康' ,wechat:'达尔博格',nick:'',major:'16/化学/应用化学',withUs:'外联组成员',index:'87',sex:'boy'},
+{ name: '谢兆楠' ,wechat:'Eason、',nick:'',major:'16/化学/能源化学工程',withUs:'微信组成员',index:'88',sex:'boy'},
+{ name: '蔡桦榕' ,wechat:'蔡桦榕',nick:'',major:'16/设计/工业设计',withUs:'设计组成员',index:'89',sex:'girl'},
+{ name: '毛清璇' ,wechat:'毛毛',nick:'毛毛',major:'16/艺术/音乐表演',withUs:'前外联经理',index:'90',sex:'girl'},
+{ name: '谁啊……' ,wechat:'自娱自乐',nick:'',major:'',withUs:'',index:'91',sex:'girl'},
+{ name: '彭安琪' ,wechat:'Annnnn琪',nick:'安琪拉',major:'16/建筑/城乡规划',withUs:'',index:'92',sex:'girl'},
+{ name: '莫铭华' ,wechat:'茉莉',nick:'molly',major:'15/工商管理/市场营销专业',withUs:'前外联经理',index:'93',sex:'girl'},
+{ name: '马子腾' ,wechat:'mzt',nick:'',major:'15/机汽/机工',withUs:'前技术组杠把子',index:'94',sex:'boy'},
+{ name: '李龙' ,wechat:'',nick:'',major:'16/公共管理/行政管理',withUs:'外联组成员',index:'95',sex:'boy'},
+{ name: '范韵绮' ,wechat:'与你¡ ',nick:'皮皮',major:'17/艺术/音乐表演',withUs:'外联组成员',index:'96',sex:'girl'},
+{ name: '林勇儒' ,wechat:'沙雕一笑很倾城',nick:'傻光',major:'17/软件/软件工程',withUs:'剩余挨打次数最多的人',index:'97',sex:'boy'},
+{ name: '陈美晶' ,wechat:'阿日',nick:'',major:'17/工商管理/工商管理',withUs:'微信经理',index:'98',sex:'girl'},
+{ name: '谌小虎' ,wechat:'',nick:'',major:'16/软件/软件工程',withUs:'外联组成员',index:'99',sex:'boy'},
+{ name: '刘一锦' ,wechat:'S.J ',nick:'',major:'17/土木与交通/交通工程',withUs:'外联组成员',index:'100',sex:'boy'},
+{ name: '区树晖' ,wechat:'FAI',nick:'',major:'17/机械与汽车工程/机械电子工程',withUs:'外联组成员',index:'101',sex:'boy'},
+{ name: '毛宪良' ,wechat:'尘埃i',nick:'小毛',major:'17/物理与光电/光电信息科学与工程',withUs:'外联组成员',index:'102',sex:'boy'},
+{ name: '冯毅成' ,wechat:'Von Yeechun',nick:'',major:'17/经贸/物流工程',withUs:'微信组成员',index:'103',sex:'boy'},
+{ name: '梁智珲' ,wechat:'dream catcher',nick:'小灰灰',major:'17/环境与能源/环境科学',withUs:'微信组成员',index:'104',sex:'boy'},
+{ name: '黄富彬' ,wechat:'目嗔',nick:'楷菌',major:'17/软件/软件工程',withUs:'微信组成员',index:'105',sex:'boy'},
+{ name: '蒋聪' ,wechat:'JoiSeph',nick:'聪聪',major:'17/经贸/旅游与酒店管理',withUs:'微信经理',index:'106',sex:'girl'},
+{ name: '刘博安' ,wechat:'正义表达载体',nick:'',major:'16/软件/软件工程',withUs:'微信组成员',index:'107',sex:'boy'},
+{ name: '刘润生' ,wechat:'',nick:'大志',major:'17/软件/软件',withUs:'微信经理',index:'108',sex:'boy'},
+{ name: '陈冠良' ,wechat:'奥尔良”',nick:'',major:'16/物理与光电/光电信息',withUs:'外联组成员',index:'109',sex:'boy'},
+{ name: '孙博文' ,wechat:'文少',nick:'',major:'17/工商管理/会计学',withUs:'外联经理',index:'110',sex:'boy'},
+{ name: '谢欢' ,wechat:'西瓜最中间那一勺',nick:'',major:'17/化学与化工/化学工程与工艺',withUs:'微信组成员',index:'111',sex:'boy'},
+{ name: '区世恒' ,wechat:'Tendency Hng',nick:'蠢ten',major:'17/设计/工业设计',withUs:'设计组成员',index:'112',sex:'boy'},
+{ name: '梁宇威' ,wechat:'小宇宇宇yuyu',nick:'',major:'17/设计/工业设计',withUs:'设计组成员',index:'113',sex:'boy'},
+{ name: '？？？' ,wechat:'芝士流奶菠萝包',nick:'',major:'17/',withUs:'',index:'114',sex:'girl'},
+{ name: '高越' ,wechat:'葵与高',nick:'小葵',major:'17/土木与交通/交通工程',withUs:'设计组成员',index:'115',sex:'girl'},
+{ name: '方婷' ,wechat:'胖婷本人',nick:'',major:'17/电信/信息工程',withUs:'微信经理',index:'116',sex:'girl'},
+{ name: '林志鹏' ,wechat:'Flipped',nick:'',major:'17/电力/电气工程及其自动化',withUs:'外联经理',index:'117',sex:'boy'},
+{ name: '童路琳' ,wechat:'T.',nick:'',major:'17/设计/环境设计',withUs:'设计组成员',index:'118',sex:'girl'},
+{ name: '刘紫娟' ,wechat:'kagome',nick:'',major:'16/新传/新闻与传播',withUs:'视频组成员',index:'119',sex:'girl'},
+{ name: '蒋文虎' ,wechat:'鸡丁',nick:'',major:'16/软件',withUs:'剪鬼畜的视频组大佬',index:'120',sex:'boy'},
+{ name: '程云卉' ,wechat:'不加糖的甜',nick:'',major:'17/电信/电子科学与技术',withUs:'视频组部长',index:'121',sex:'girl'},
+{ name: '刘欢' ,wechat:'s',nick:'',major:'17/土木/工程力学',withUs:'技术组经理',index:'122',sex:'boy'},
+{ name: '郑婉君' ,wechat:'关女尹i',nick:'关关',major:'17/外国语/商务英语',withUs:'微博经理',index:'123',sex:'girl'},
+{ name: '廖丽铭' ,wechat:'LLLLL',nick:'小傲',major:'17/材料科学与工程学院/材料科学与工程',withUs:'微博组杠把子',index:'124',sex:'girl'},
+{ name: '黄志伦' ,wechat:'黄志伦',nick:'小小黄',major:'17/设计/公共艺术',withUs:'微博经理',index:'125',sex:'boy'},
+{ name: '吴海洲' ,wechat:':)',nick:'巴啦啦',major:'17/经贸学院/金融学',withUs:'微博经理',index:'126',sex:'girl'},
+{ name: '顾智豪' ,wechat:'wow',nick:'',major:'17/设计学院/环境设计',withUs:'视频组经理',index:'127',sex:'boy'},
+{ name: '陈俊泽' ,wechat:'羽',nick:'',major:'17/',withUs:'技术组成员',index:'128',sex:'boy'},
+{ name: '唐原' ,wechat:'莫小原',nick:'',major:'17/',withUs:'技术组成员',index:'129',sex:'boy'},
+{ name: '肖忠铭' ,wechat:'所与',nick:'',major:'机械与汽车工程/过程装备与控制工程',withUs:'',index:'130',sex:'boy'},
+{ name: '黄海乘' ,wechat:'万有引力。',nick:'',major:'17/',withUs:'技术组成员',index:'131',sex:'boy'},
+{ name: '' ,wechat:'刺猬',nick:'刺猬',major:'',withUs:'Rumor的爸爸',index:'132',sex:'boy'},
+{ name: '赵文彬' ,wechat:'xxx',nick:'',major:'16/',withUs:'技术组杠把子',index:'133',sex:'boy'},
+{ name: '谁啊……' ,wechat:'ln',nick:'',major:'',withUs:'',index:'134',sex:'girl'},
+{ name: '梁佳豪' ,wechat:'柠檬树',nick:'',major:'15/',withUs:'视频组的摄影大佬',index:'135',sex:'boy'},
+{ name: '许秋琳' ,wechat:'Lumen',nick:'',major:'16/新传/新闻与传播',withUs:'第6代副会长 外联杠把子',index:'136',sex:'girl'},
+{ name: '黄啸' ,wechat:'黄啸',nick:'啸啸',major:'16/',withUs:'绍进第一任cp',index:'137',sex:'boy'},
+{ name: '' ,wechat:'顾西塔',nick:'西塔',major:'14/',withUs:'14级微信经理',index:'138',sex:'girl'},
+{ name: '初琦' ,wechat:'Cookie',nick:'',major:'17/土木与交通/交通工程',withUs:'',index:'139',sex:'girl'},
+{ name: '翁广瑶' ,wechat:'太阳的阳',nick:'',major:'17/建筑/风景园林',withUs:'',index:'140',sex:'girl'},
+{ name: '' ,wechat:'吃宵夜',nick:'吃宵夜',major:'17/材料科学与工程/无机非金属材料科学与工程',withUs:'设计组杠把子',index:'141',sex:'girl'},
+{ name: '' ,wechat:'对方正在输入...',nick:'咕咕书',major:'17/软件/软件工程',withUs:'',index:'142',sex:'boy'},
+{ name: '' ,wechat:'郭嘉一吸',nick:'一吸',major:'16/环境与能源/环境科学',withUs:'',index:'143',sex:'boy'},
+{ name: '谁啊' ,wechat:'Wyatt',nick:'',major:'',withUs:'',index:'144',sex:'girl'},
+{ name: '曾子蕊' ,wechat:'今天撸码了吗？',nick:'',major:'17/机械与汽车工程/机械工程',withUs:'',index:'145',sex:'girl'},
+{ name: '陈诗宜' ,wechat:'夏常安',nick:'',major:'17/设计/环境设计',withUs:'',index:'146',sex:'girl'},
+{ name: '曾译萱' ,wechat:'火笨笨的包子',nick:'',major:'建筑/建筑学',withUs:'',index:'147',sex:'girl'},
+{ name: '马含笑' ,wechat:'',nick:'',major:'17/艺术/声乐',withUs:'',index:'148',sex:'girl'},
+{ name: '邱子昱' ,wechat:'煜子',nick:'',major:'17/机械与汽车工程/机械电子工程',withUs:'',index:'149',sex:'boy'},
+{ name: '周可欣' ,wechat:'',nick:'',major:'17/外国语/商务英语',withUs:'外联经理',index:'150',sex:'girl'},
+{ name: '王深' ,wechat:'Rise',nick:'',major:'16/物理与光电/光电信息',withUs:'',index:'151',sex:'boy'},
+{ name: '江毓涛' ,wechat:'灯火阑珊',nick:'',major:'16/电信/信息工程',withUs:'',index:'152',sex:'boy'},
+{ name: '微博的谁啊' ,wechat:'Euphoria',nick:'',major:'',withUs:'',index:'153',sex:'girl'},
+{ name: '詹泽坤' ,wechat:'zekun',nick:'坤坤 狗坤',major:'15/',withUs:'',index:'154',sex:'boy'},
+{ name: '' ,wechat:'贺贺贺贺贺龄',nick:'（美丽的）荷兰',major:'14/',withUs:'',index:'155',sex:'girl'},
+{ name: '' ,wechat:'柿子',nick:'柿子',major:'16/',withUs:'会草（二代）',index:'156',sex:'boy'},
+{ name: '项阳凯' ,wechat:'Youngkin',nick:'',major:'15/',withUs:'',index:'157',sex:'boy'},
+{ name: '魏一戈' ,wechat:'喂喂喂喂喂喂一个',nick:'',major:'16/',withUs:'',index:'158',sex:'boy'},
+{ name: '范浩权' ,wechat:'RenOl',nick:'犯傻',major:'14/计算机/网工',withUs:'',index:'159',sex:'boy'},
+{ name: '陈绮婷' ,wechat:'七七女王',nick:'77',major:'15/电力/电气',withUs:'',index:'160',sex:'girl'},
+{ name: '胡嘉琪' ,wechat:'FuFu胡～',nick:'',major:'16/',withUs:'',index:'161',sex:'girl'},
+{ name: '谭咏雯' ,wechat:'亘',nick:'胸胸',major:'16/电信/信息工程',withUs:'',index:'162',sex:'girl'},
+{ name: '李天昊' ,wechat:'西瓜菌',nick:'日天',major:'17/新传院/传播学国际班',withUs:'',index:'163',sex:'boy'},
+
+	    ]
+	  },
+	  methods: {
+	  	getSexPic: function (sex) {
+	  		return "icon/"+sex+".png"
+	  	},
+	  	getHead: function (num) {
+	  		return "head/"+num+".jpg"
+	  	},
+	  	randdivider: function () {
+	  		var num = Math.floor(Math.random()*27)+1
+	  		return "divider/divider ("+num.toString()+").png"
+	  	},
+	  	changeIsInfo: function () {
+	  		this.isInfo=!this.isInfo
+	  		console.log(this.isInfo)
+	  		if(this.isInfo==true){
+	  			document.getElementById("1").scrollIntoView({behavior: "instant"})
+	  		}
+	  		else{
+	  			document.getElementById("overview").scrollIntoView({behavior: "instant",block: "start"})
+	  		}
+
+	  	},
+	  	getAnchor: function (anchor) {
+	  		return "#"+anchor
+	  	},
+	  	getName: function (index) {
+	  		return "a"+index
+	  	},
+	  	goto:function(index){
+	  		console.log(index)
+	  		this.changeIsInfo()
+	  		document.getElementById(index).scrollIntoView({behavior: "instant"})
+	  		this.isInfo=true
+	  	}
+	  }
+	})
+	</script>
+</html>
